@@ -1,7 +1,7 @@
 'use strict';
 angular
   .module('feedbackUiApp', [
-    'ngRoute'
+    'ngRoute', 'ngResource'
   ])
   .config(function ($routeProvider) {
     $routeProvider
