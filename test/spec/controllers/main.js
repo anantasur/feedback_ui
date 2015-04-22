@@ -1,22 +1,27 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: IndexCtrl', function() {
 
-  // load the controller's module
   beforeEach(module('feedbackUiApp'));
 
-  var MainCtrl,
-    scope;
+  var IndexCtrl, scope, httpMock;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope, $httpBackend, $injector) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    $httpBackend = $injector.get('$httpBackend');
+    httpMock = $httpBackend;
+    IndexCtrl = $controller('IndexCtrl', {
       $scope: scope
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should contain the feedback author name', function() {
+    httpMock.expectGET("http://localhost:3000/feedback/123").respond({
+      "comment": "hi",
+      "author": "test"
+    });
+    httpMock.flush();
+    expect(scope.feedback.author).toBe("test");
   });
+
 });
